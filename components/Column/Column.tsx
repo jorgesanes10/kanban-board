@@ -1,7 +1,7 @@
+import React from 'react';
+import Link from 'next/link';
 import { createCard } from '@/app/actions/createCard';
 import { Card } from '@/app/board/[boardId]/page';
-import Link from 'next/link';
-import React from 'react';
 
 interface ColumnProps {
   id: string;
@@ -12,7 +12,7 @@ interface ColumnProps {
 
 export const Column = ({ id, name, boardId, cards }: ColumnProps) => {
   return (
-    <div key={id} className="border rounded px-4 py-1 w-60 flex-none">
+    <div key={id} className="border rounded px-4 py-1 w-60 flex flex-col">
       <h2 className="font-bold mb-2">{name}</h2>
       {cards.map(({ name, id: cardId }) => (
         <Link
