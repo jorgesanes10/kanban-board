@@ -16,7 +16,7 @@ export async function updateCard({ id, field, value }: UpdateCardInput) {
   }
 
   // Prepare dynamic SQL for updating a single field
-  const validFields = ['name', 'description', 'points', 'labels', 'columnId'];
+  const validFields = ['name', 'description', 'points', 'labels', 'column_id'];
   if (!validFields.includes(field)) {
     throw new Error(`Invalid field: ${field}`);
   }

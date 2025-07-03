@@ -2,11 +2,12 @@
 
 import { ChangeEvent } from 'react';
 import { updateCard } from '@/app/actions/updateCard';
-import { Card } from '@/app/board/[boardId]/page';
+import { ICard } from '@/app/board/[boardId]/page';
 import { useRouter } from 'next/navigation';
+import { TextField } from '../Forms/TextField';
 
 interface CardModalProps {
-  card: Card;
+  card: ICard;
 }
 
 export const CardModal = ({ card }: CardModalProps) => {
@@ -30,22 +31,22 @@ export const CardModal = ({ card }: CardModalProps) => {
 
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full bg-background/70 flex justify-center items-center cursor-pointer"
+      className="fixed top-0 left-0 w-full h-full bg-gray-900/70 flex justify-center items-center cursor-pointer"
       onClick={handleClose}
     >
       <div
-        className="border rounded p-10 bg-background cursor-default"
+        className="border rounded p-10 bg-white/90 backdrop-blur-xs cursor-default"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex justify-between mb-4">
-          <h1 className="text-2xl">{card.name}</h1>
+          <h1 className="text-3xl">{card.name}</h1>
           <button className="cursor-pointer" onClick={handleClose}>
             X
           </button>
         </div>
         <div className="flex flex-col gap-4">
           <textarea
-            className="border p-2"
+            className="rounded-3xl border border-gray-400 px-3 py-2 inset-shadow-md w-200 h-50"
             id="description"
             name="description"
             defaultValue={card.description || ''}
@@ -56,13 +57,13 @@ export const CardModal = ({ card }: CardModalProps) => {
             <label htmlFor="points" className="mr-2">
               Points
             </label>
-            <input
+            <TextField
               type="number"
               id="points"
               name="points"
               defaultValue={card.points || 0}
               onBlur={handleFieldChange}
-              className="border p-2"
+              className="w-20"
             />
           </div>
         </div>

@@ -1,5 +1,5 @@
 import db from '@/lib/db';
-import { Card } from '../../../page';
+import { ICard } from '../../../page';
 import { CardModal } from '@/components/Card/CardModal';
 
 export default async function CardDetail({
@@ -9,11 +9,9 @@ export default async function CardDetail({
 }) {
   const { cardId } = await params;
 
-  console.log('cardId', cardId);
-
   // Direct SQLite query inside the Server Component
   const cardStmt = db.prepare('SELECT * FROM cards WHERE id = ?');
-  const card = cardStmt.get(cardId) as Card;
+  const card = cardStmt.get(cardId) as ICard;
 
   if (!card) {
     // You can throw to trigger the 404 page

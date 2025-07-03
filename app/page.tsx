@@ -14,7 +14,7 @@ export default function Home() {
   const boards = stmt.all() as Board[];
 
   return (
-    <div className="p-6">
+    <div className="p-6 h-full">
       <ul>
         {boards.map(({ name, id }) => (
           <li key={id}>

@@ -1,21 +1,20 @@
-// app/board/[boardId]/page.tsx
 import { createColumn } from '@/app/actions/createColumn';
-import { Column } from '@/components/Column/Column';
-import { CreateColumnForm } from '@/components/Forms/CreateColumnForm';
+import Board from '@/components/Board/Board';
 import db from '@/lib/db';
 
-interface Board {
+export interface IBoard {
   id: string;
   name: string;
 }
 
-interface Column {
+export interface IColumn {
   id: string;
   name: string;
   position: number;
+  cards: ICard[];
 }
 
-export interface Card {
+export interface ICard {
   id: string;
   name: string;
   description?: string;
@@ -33,7 +32,7 @@ export default async function BoardPage({
 
   // Direct SQLite query inside the Server Component
   const boardStmt = db.prepare('SELECT * FROM boards WHERE id = ?');
-  const board = boardStmt.get(boardId) as Board;
+  const board = boardStmt.get(boardId) as IBoard;
 
   if (!board) {
     // You can throw to trigger the 404 page
@@ -41,36 +40,15 @@ export default async function BoardPage({
   }
 
   const columnsStmt = db.prepare('SELECT * FROM columns WHERE board_id = ?');
-  const columns = columnsStmt.all(boardId) as Column[];
+  const columns = columnsStmt.all(boardId) as IColumn[];
+
+  for (const column of columns) {
+    const cardsStmt = db.prepare('SELECT * FROM cards WHERE column_id = ?');
+    const cards = cardsStmt.all(column.id) as ICard[];
+    column.cards = cards; // attach cards to the column
+  }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-5">{board.name}</h1>
-      <div className="h-[70vh] flex gap-10 overflow-auto">
-        {columns.map(({ name, id }) => {
-          const cardsStmt = db.prepare(
-            'SELECT * FROM cards WHERE column_id = ?',
-          );
-          const cards = cardsStmt.all(id) as Card[];
-
-          console.log('cards', cards);
-
-          return (
-            <Column
-              key={id}
-              id={id}
-              name={name}
-              boardId={boardId}
-              cards={cards}
-            />
-          );
-        })}
-        <CreateColumnForm
-          action={createColumn}
-          boardId={boardId}
-          columnsLength={columns.length}
-        />
-      </div>
-    </div>
+    <Board board={board} columns={columns} createColumnAction={createColumn} />
   );
 }
