@@ -1,6 +1,7 @@
 import db from '@/lib/db';
-import { ICard } from '../../../page';
+import { ICard, ILabel } from '../../../page';
 import { CardModal } from '@/components/Card/CardModal';
+import { getLabels } from '@/app/actions/getLabels';
 
 export default async function CardDetail({
   params,
@@ -13,10 +14,21 @@ export default async function CardDetail({
   const cardStmt = db.prepare('SELECT * FROM cards WHERE id = ?');
   const card = cardStmt.get(cardId) as ICard;
 
+  const labels = await getLabels();
+
   if (!card) {
     // You can throw to trigger the 404 page
     throw new Error('Card not found');
   }
 
-  return <CardModal card={card} />;
+  const selectedLabels =
+    card.labels?.split(',').map((labelId) => {
+      const label = labels.find((l) => l.id === labelId)!;
+
+      return { id: label?.id, name: label?.name, color: label?.color };
+    }) || ([] as ILabel[]);
+
+  return (
+    <CardModal card={card} labels={labels} selectedLabels={selectedLabels} />
+  );
 }

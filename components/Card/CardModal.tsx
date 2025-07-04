@@ -2,15 +2,18 @@
 
 import { ChangeEvent } from 'react';
 import { updateCard } from '@/app/actions/updateCard';
-import { ICard } from '@/app/board/[boardId]/page';
+import { ICard, ILabel } from '@/app/board/[boardId]/page';
 import { useRouter } from 'next/navigation';
 import { TextField } from '../Forms/TextField';
+import { LabelSelector } from '../Label/LabelSelector';
 
 interface CardModalProps {
   card: ICard;
+  labels: ILabel[];
+  selectedLabels?: ILabel[];
 }
 
-export const CardModal = ({ card }: CardModalProps) => {
+export const CardModal = ({ card, labels, selectedLabels }: CardModalProps) => {
   const router = useRouter();
 
   const handleFieldChange = (
@@ -27,6 +30,10 @@ export const CardModal = ({ card }: CardModalProps) => {
 
   const handleClose = () => {
     router.back();
+  };
+
+  const handleLabelSelect = (newLabels: string) => {
+    updateCard({ id: card.id, field: 'labels', value: newLabels });
   };
 
   return (
@@ -66,6 +73,11 @@ export const CardModal = ({ card }: CardModalProps) => {
               className="w-20"
             />
           </div>
+          <LabelSelector
+            labels={labels}
+            onLabelSelect={handleLabelSelect}
+            selectedLabels={selectedLabels!}
+          />
         </div>
       </div>
     </div>
