@@ -1,4 +1,5 @@
 import { createColumn } from '@/app/actions/createColumn';
+import { getLabels } from '@/app/actions/getLabels';
 import Board from '@/components/Board/Board';
 import db from '@/lib/db';
 
@@ -54,7 +55,14 @@ export default async function BoardPage({
     column.cards = cards; // attach cards to the column
   }
 
+  const labels = await getLabels();
+
   return (
-    <Board board={board} columns={columns} createColumnAction={createColumn} />
+    <Board
+      board={board}
+      columns={columns}
+      createColumnAction={createColumn}
+      allLabels={labels}
+    />
   );
 }

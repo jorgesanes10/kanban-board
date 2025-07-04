@@ -1,20 +1,34 @@
 'use client';
 
 import { useDraggable } from '@dnd-kit/core';
-import { ICard } from '@/app/board/[boardId]/page';
+import { ILabel } from '@/app/board/[boardId]/page';
 import { useRouter } from 'next/navigation';
+import { getSelectedLabels } from '@/utils';
+import { Label } from '../Label/Label';
+
+interface CardWidgetProps {
+  boardId: string;
+  id: string;
+  name: string;
+  points?: number;
+  selectedLabels?: string;
+  allLabels?: ILabel[];
+}
 
 export const CardWidget = ({
   boardId,
   id,
   name,
   points,
-}: Omit<ICard, 'columnId'> & { boardId: string }) => {
+  selectedLabels,
+  allLabels,
+}: CardWidgetProps) => {
   const router = useRouter();
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id,
   });
+
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0) rotate(-3deg)`,
@@ -26,21 +40,32 @@ export const CardWidget = ({
     router.push(`/board/${boardId}/card/${id}`);
   };
 
+  const formattedLabels = getSelectedLabels(selectedLabels!, allLabels!);
+
   return (
     <div
       onClick={handleClick}
       key={id}
-      className="border border-gray-300 rounded p-2 mb-2 shadow-md flex justify-between backdrop-blur-md bg-white/50 cursor-pointer"
+      className="border border-gray-300 rounded px-4 py-2 mb-2 shadow-md flex flex-col justify-between backdrop-blur-md bg-white/50 cursor-pointer"
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
     >
-      <span>{name}</span>
-      {points && (
-        <span className="bg-blue-400 rounded-full h-5 w-5 flex items-center justify-center text-sm text-white font-bold">
-          {points}
-        </span>
+      <div className="flex justify-between">
+        <span>{name}</span>
+        {points && (
+          <span className="bg-blue-400 rounded-full h-5 w-5 flex items-center justify-center text-sm text-white font-bold">
+            {points}
+          </span>
+        )}
+      </div>
+      {formattedLabels.length > 0 && (
+        <div className="mt-3 mb-2 flex gap-2 flex-wrap">
+          {formattedLabels.map(({ id, name, color }) => (
+            <Label key={id} id={id} name={name} color={color} />
+          ))}
+        </div>
       )}
     </div>
   );

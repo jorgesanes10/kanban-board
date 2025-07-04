@@ -6,7 +6,7 @@ import { Label } from './Label';
 
 interface LabelSelectorProps {
   labels: ILabel[];
-  onLabelSelect: (labels: string) => void;
+  onLabelSelect: (labels: string | null) => void;
   selectedLabels: ILabel[];
 }
 
@@ -31,7 +31,11 @@ export const LabelSelector = ({
       }
     }
 
-    onLabelSelect(currentSelectedLabels.map((l) => l.id).join(','));
+    onLabelSelect(
+      currentSelectedLabels.length === 0
+        ? null
+        : currentSelectedLabels.map((l) => l.id).join(','),
+    );
   };
 
   return (

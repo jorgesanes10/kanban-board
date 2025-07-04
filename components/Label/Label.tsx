@@ -4,7 +4,7 @@ interface LabelProps {
   id: string;
   color: string;
   name: string;
-  handleLabelCheck: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleLabelCheck?: (event: ChangeEvent<HTMLInputElement>) => void;
   selectable?: boolean;
   selected?: boolean;
 }

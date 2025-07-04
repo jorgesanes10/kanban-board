@@ -8,7 +8,7 @@ import {
   useSensors,
   DragEndEvent,
 } from '@dnd-kit/core';
-import { IBoard, IColumn } from '@/app/board/[boardId]/page';
+import { IBoard, IColumn, ILabel } from '@/app/board/[boardId]/page';
 import { Column } from '../Column/Column';
 import { CreateColumnForm } from '../Forms/CreateColumnForm';
 import { updateCard } from '@/app/actions/updateCard';
@@ -16,6 +16,7 @@ import { updateCard } from '@/app/actions/updateCard';
 interface BoardProps {
   board: IBoard;
   columns: IColumn[];
+  allLabels: ILabel[];
   createColumnAction: (formData: FormData) => Promise<void>;
 }
 
@@ -23,6 +24,7 @@ export default function Board({
   board,
   columns,
   createColumnAction,
+  allLabels,
 }: BoardProps) {
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
@@ -62,6 +64,7 @@ export default function Board({
                 name={name}
                 boardId={board.id}
                 cards={cards}
+                allLabels={allLabels}
               />
             );
           })}

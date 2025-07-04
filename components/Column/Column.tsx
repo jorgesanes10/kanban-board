@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { createCard } from '@/app/actions/createCard';
-import { ICard } from '@/app/board/[boardId]/page';
+import { ICard, ILabel } from '@/app/board/[boardId]/page';
 import { TextField } from '../Forms/TextField';
 import { CardWidget } from '../Card/CardWidget';
 
@@ -10,9 +10,16 @@ interface ColumnProps {
   name: string;
   boardId: string;
   cards: ICard[];
+  allLabels: ILabel[];
 }
 
-export const Column = ({ id, name, boardId, cards }: ColumnProps) => {
+export const Column = ({
+  id,
+  name,
+  boardId,
+  cards,
+  allLabels,
+}: ColumnProps) => {
   const { isOver, setNodeRef } = useDroppable({
     id,
   });
@@ -28,13 +35,15 @@ export const Column = ({ id, name, boardId, cards }: ColumnProps) => {
       style={style}
     >
       <h2 className="font-bold mb-4 text-xl">{name}</h2>
-      {cards.map(({ name, id: cardId, points }) => (
+      {cards.map(({ name, id: cardId, points, labels }) => (
         <CardWidget
           key={cardId}
           name={name}
           id={cardId}
           points={points}
           boardId={boardId}
+          selectedLabels={labels}
+          allLabels={allLabels}
         />
       ))}
       <form action={createCard} className="mt-4">

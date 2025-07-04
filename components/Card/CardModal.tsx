@@ -30,7 +30,7 @@ export const CardModal = ({ card, labels, selectedLabels }: CardModalProps) => {
     router.back();
   };
 
-  const handleLabelSelect = (newLabels: string) => {
+  const handleLabelSelect = (newLabels: string | null) => {
     updateCard({ id: card.id, field: 'labels', value: newLabels });
   };
 

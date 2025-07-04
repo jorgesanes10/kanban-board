@@ -1,7 +1,8 @@
 import db from '@/lib/db';
-import { ICard, ILabel } from '../../../page';
+import { ICard } from '../../../page';
 import { CardModal } from '@/components/Card/CardModal';
 import { getLabels } from '@/app/actions/getLabels';
+import { getSelectedLabels } from '@/utils';
 
 export default async function CardDetail({
   params,
@@ -21,12 +22,7 @@ export default async function CardDetail({
     throw new Error('Card not found');
   }
 
-  const selectedLabels =
-    card.labels?.split(',').map((labelId) => {
-      const label = labels.find((l) => l.id === labelId)!;
-
-      return { id: label?.id, name: label?.name, color: label?.color };
-    }) || ([] as ILabel[]);
+  const selectedLabels = getSelectedLabels(card.labels!, labels);
 
   return (
     <CardModal card={card} labels={labels} selectedLabels={selectedLabels} />

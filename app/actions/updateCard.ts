@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache';
 interface UpdateCardInput {
   id: string;
   field: string;
-  value: string | number;
+  value: string | number | null;
 }
 
 export async function updateCard({ id, field, value }: UpdateCardInput) {
