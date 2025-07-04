@@ -19,8 +19,14 @@ export interface ICard {
   name: string;
   description?: string;
   points?: number;
-  labels?: string[];
+  labels?: string;
   columnId: string;
+}
+
+export interface ILabel {
+  id: string;
+  name: string;
+  color: string;
 }
 
 export default async function BoardPage({

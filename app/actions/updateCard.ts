@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache';
 interface UpdateCardInput {
   id: string;
   field: string;
-  value: string | number | string[];
+  value: string | number;
 }
 
 export async function updateCard({ id, field, value }: UpdateCardInput) {
@@ -21,13 +21,8 @@ export async function updateCard({ id, field, value }: UpdateCardInput) {
     throw new Error(`Invalid field: ${field}`);
   }
 
-  let formattedValue = value;
-  if (field === 'labels' && Array.isArray(value)) {
-    formattedValue = JSON.stringify(value);
-  }
-
   const stmt = db.prepare(`UPDATE cards SET ${field} = ? WHERE id = ?`);
-  stmt.run(formattedValue, id);
+  stmt.run(value, id);
 
   // Revalidate all boards containing this card
   revalidatePath('/board');

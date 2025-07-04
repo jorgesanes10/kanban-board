@@ -25,9 +25,7 @@ export default function Board({
   createColumnAction,
 }: BoardProps) {
   const mouseSensor = useSensor(MouseSensor, {
-    // Require the mouse to move by 10 pixels before activating
     activationConstraint: {
-      // distance: 10,
       delay: 100,
       tolerance: 5,
     },
