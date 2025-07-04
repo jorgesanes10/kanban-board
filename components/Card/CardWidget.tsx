@@ -23,8 +23,6 @@ export const CardWidget = ({
     : undefined;
 
   const handleClick = () => {
-    console.log('clicking');
-
     router.push(`/board/${boardId}/card/${id}`);
   };
 

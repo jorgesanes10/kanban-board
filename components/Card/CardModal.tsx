@@ -23,8 +23,6 @@ export const CardModal = ({ card, labels, selectedLabels }: CardModalProps) => {
     const field = event.target.name;
     const value = event.target.value;
 
-    console.log({ id, field, value });
-
     updateCard({ id, field, value });
   };
 
