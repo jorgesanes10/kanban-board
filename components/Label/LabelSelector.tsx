@@ -1,7 +1,7 @@
 import { createLabel } from '@/app/actions/createLabel';
 import { TextField } from '../Forms/TextField';
 import { ILabel } from '@/app/board/[boardId]/page';
-import { ChangeEvent } from 'react';
+import { MouseEvent, useState } from 'react';
 import { Label } from './Label';
 import { Button } from '../Forms/Button';
 import { Panel } from '../Containers/Panel';
@@ -17,16 +17,23 @@ export const LabelSelector = ({
   onLabelSelect,
   selectedLabels,
 }: LabelSelectorProps) => {
-  const handleLabelCheck = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleButtonClick = (
+    event: MouseEvent<HTMLButtonElement>,
+    isToggledOn: boolean,
+  ) => {
+    const currentId = (event.target as HTMLButtonElement).id;
+
+    console.log({ currentId, isToggledOn });
 
     const currentSelectedLabels = [...selectedLabels];
 
-    if (checked) {
-      const newLabel = labels.find((label) => label.id === value);
+    if (isToggledOn) {
+      const newLabel = labels.find((label) => label.id === currentId);
       currentSelectedLabels.push(newLabel!);
     } else {
-      const index = currentSelectedLabels.findIndex((l) => l.id === value);
+      const index = currentSelectedLabels.findIndex((l) => l.id === currentId);
 
       if (index !== -1) {
         currentSelectedLabels.splice(index, 1);
@@ -40,36 +47,54 @@ export const LabelSelector = ({
     );
   };
 
+  const handleToggleViewClick = () => {
+    setIsExpanded((prevExpanded) => !prevExpanded);
+  };
+
+  console.log('selectedLabels', selectedLabels);
+
   return (
     <div>
       <h3>Labels</h3>
-      <div className="flex gap-2">
-        {labels.map(({ id, name, color }) => {
-          const isSelected =
-            selectedLabels && !!selectedLabels.find((l) => l.id === id);
-
-          return (
-            <Label
-              key={id}
-              id={id}
-              name={name}
-              color={color}
-              handleLabelCheck={handleLabelCheck}
-              selectable
-              selected={isSelected}
-            />
-          );
-        })}
+      <div className="flex gap-2 py-4">
+        {selectedLabels.map(({ id, name, color }) => (
+          <Label key={id} name={name} color={color} />
+        ))}
       </div>
-      <Panel className="w-65">
-        <form action={createLabel} className="flex flex-col items-start">
-          <label htmlFor="name">Name:</label>
-          <TextField type="text" id="name" name="name" required />
-          <label htmlFor="color">Color:</label>
-          <TextField type="text" id="color" name="color" required />
-          <Button className="mt-3">Create label</Button>
-        </form>
-      </Panel>
+      <Button onClick={handleToggleViewClick}>
+        View {isExpanded ? 'less' : 'more'}
+      </Button>
+      {isExpanded && (
+        <div className="mt-4 flex gap-4 items-start">
+          <Panel className="flex gap-2 grow-1">
+            {labels.map(({ id, name, color }) => {
+              const isSelected =
+                selectedLabels && !!selectedLabels.find((l) => l.id === id);
+
+              return (
+                <Button
+                  key={id}
+                  id={id}
+                  customOnClick={handleButtonClick}
+                  toggleable
+                  isToggledOn={isSelected}
+                >
+                  <Label name={name} color={color} />
+                </Button>
+              );
+            })}
+          </Panel>
+          <Panel className="w-65">
+            <form action={createLabel} className="flex flex-col items-start">
+              <label htmlFor="name">Name:</label>
+              <TextField type="text" id="name" name="name" required />
+              <label htmlFor="color">Color:</label>
+              <TextField type="text" id="color" name="color" required />
+              <Button className="mt-3">Create label</Button>
+            </form>
+          </Panel>
+        </div>
+      )}
     </div>
   );
 };

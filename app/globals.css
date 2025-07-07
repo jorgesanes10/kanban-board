@@ -44,6 +44,11 @@ body {
 }
 
 button {
+  background: linear-gradient(
+    135deg,
+    rgba(238, 245, 251, 1) 0%,
+    rgba(228, 241, 254, 1) 100%
+  );
   box-shadow:
     2px 2px 4px rgba(0, 0, 0, 0.09),
     inset 1px 1px 2px #fff;
@@ -53,4 +58,39 @@ button:active {
   box-shadow:
     1px 1px 1px rgba(255, 255, 255, 0.37),
     inset 2px 2px 3px rgba(112, 147, 185, 0.33);
+}
+
+button.toggleable.on {
+  background: -moz-linear-gradient(
+    -45deg,
+    rgba(86, 199, 255, 1) 0%,
+    rgba(53, 167, 254, 1) 100%
+  );
+  background: -webkit-gradient(
+    left top,
+    right bottom,
+    color-stop(0%, rgba(86, 199, 255, 1)),
+    color-stop(100%, rgba(53, 167, 254, 1))
+  );
+  background: -webkit-linear-gradient(
+    -45deg,
+    rgba(86, 199, 255, 1) 0%,
+    rgba(53, 167, 254, 1) 100%
+  );
+  background: -o-linear-gradient(
+    -45deg,
+    rgba(86, 199, 255, 1) 0%,
+    rgba(53, 167, 254, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    -45deg,
+    rgba(86, 199, 255, 1) 0%,
+    rgba(53, 167, 254, 1) 100%
+  );
+  background: linear-gradient(
+    135deg,
+    rgba(86, 199, 255, 1) 0%,
+    rgba(53, 167, 254, 1) 100%
+  );
+  color: #fff;
 }

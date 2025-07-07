@@ -63,7 +63,7 @@ export const CardWidget = ({
       {formattedLabels.length > 0 && (
         <div className="mt-3 mb-2 flex gap-2 flex-wrap">
           {formattedLabels.map(({ id, name, color }) => (
-            <Label key={id} id={id} name={name} color={color} />
+            <Label key={id} name={name} color={color} />
           ))}
         </div>
       )}
