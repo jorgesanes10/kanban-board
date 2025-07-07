@@ -6,6 +6,7 @@ import { ICard, ILabel } from '@/app/board/[boardId]/page';
 import { useRouter } from 'next/navigation';
 import { TextField } from '../Forms/TextField';
 import { LabelSelector } from '../Label/LabelSelector';
+import { Button } from '../Forms/Button';
 
 interface CardModalProps {
   card: ICard;
@@ -40,23 +41,24 @@ export const CardModal = ({ card, labels, selectedLabels }: CardModalProps) => {
       onClick={handleClose}
     >
       <div
-        className="border rounded p-10 bg-white/90 backdrop-blur-xs cursor-default"
+        className="border rounded p-10 bg-[#f1f6fa] backdrop-blur-xs cursor-default"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex justify-between mb-4">
           <h1 className="text-3xl">{card.name}</h1>
-          <button className="cursor-pointer" onClick={handleClose}>
+          <Button className="cursor-pointer" onClick={handleClose}>
             X
-          </button>
+          </Button>
         </div>
         <div className="flex flex-col gap-4">
           <textarea
-            className="rounded-3xl border border-gray-400 px-3 py-2 inset-shadow-md w-200 h-50"
+            className="bg-[#C8D9E8] rounded-lg px-2 py-1 text-gray-800 w-200 h-50"
             id="description"
             name="description"
             defaultValue={card.description || ''}
             placeholder="Description..."
             onBlur={handleFieldChange}
+            style={{ boxShadow: 'inset 0 1px 3px #A5BFD9' }}
           />
           <div>
             <label htmlFor="points" className="mr-2">

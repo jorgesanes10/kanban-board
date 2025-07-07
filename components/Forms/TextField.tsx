@@ -4,7 +4,8 @@ export const TextField = ({
 }: React.InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <input
-      className={`rounded-3xl border border-gray-400 px-3 py-2 inset-shadow-md ${className}`}
+      className={`bg-[#C8D9E8] rounded-lg px-2 py-1 text-gray-800 ${className}`}
+      style={{ boxShadow: 'inset 0 1px 3px #A5BFD9' }}
       {...rest}
     />
   );

@@ -22,7 +22,7 @@ export const Label = ({
       key={id}
       htmlFor={id}
       style={{ backgroundColor: color }}
-      className="p-2 rounded"
+      className="p-2 rounded text-gray-800"
     >
       {selectable && (
         <input

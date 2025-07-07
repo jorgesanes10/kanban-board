@@ -55,7 +55,7 @@ export default function Board({
     >
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-5">{board.name}</h1>
-        <div className="h-[70vh] flex gap-10 overflow-auto">
+        <div className="h-[70vh] flex gap-10 overflow-auto p-2">
           {columns.map(({ name, id, cards }) => {
             return (
               <Column

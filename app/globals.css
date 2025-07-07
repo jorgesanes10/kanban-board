@@ -2,12 +2,55 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #77808e;
 }
 
 body {
-  background-color: #dfdbe5;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%239C92AC' fill-opacity='0.15'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
+  font-family: Sans-Serif;
+  background: rgba(240, 245, 250, 1);
+  background: -moz-linear-gradient(
+    -45deg,
+    rgba(240, 245, 250, 1) 0%,
+    rgba(214, 228, 242, 1) 100%
+  );
+  background: -webkit-gradient(
+    left top,
+    right bottom,
+    color-stop(0%, rgba(240, 245, 250, 1)),
+    color-stop(100%, rgba(214, 228, 242, 1))
+  );
+  background: -webkit-linear-gradient(
+    -45deg,
+    rgba(240, 245, 250, 1) 0%,
+    rgba(214, 228, 242, 1) 100%
+  );
+  background: -o-linear-gradient(
+    -45deg,
+    rgba(240, 245, 250, 1) 0%,
+    rgba(214, 228, 242, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    -45deg,
+    rgba(240, 245, 250, 1) 0%,
+    rgba(214, 228, 242, 1) 100%
+  );
+  background: linear-gradient(
+    135deg,
+    rgba(240, 245, 250, 1) 0%,
+    rgba(214, 228, 242, 1) 100%
+  );
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  box-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.09),
+    inset 1px 1px 2px #fff;
+}
+
+button:active {
+  box-shadow:
+    1px 1px 1px rgba(255, 255, 255, 0.37),
+    inset 2px 2px 3px rgba(112, 147, 185, 0.33);
 }

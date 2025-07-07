@@ -46,7 +46,7 @@ export const CardWidget = ({
     <div
       onClick={handleClick}
       key={id}
-      className="border border-gray-300 rounded px-4 py-2 mb-2 shadow-md flex flex-col justify-between backdrop-blur-md bg-white/50 cursor-pointer"
+      className="border border-white rounded px-4 py-2 mb-2 shadow-md flex flex-col justify-between backdrop-blur-md bg-[#f1f6fa] cursor-pointer"
       ref={setNodeRef}
       style={style}
       {...attributes}

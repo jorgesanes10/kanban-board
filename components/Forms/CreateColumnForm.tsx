@@ -1,3 +1,6 @@
+import { TextField } from './TextField';
+import { Button } from './Button';
+
 interface CreateColumnFormProps {
   action: (formData: FormData) => Promise<void>;
   boardId: string;
@@ -11,13 +14,7 @@ export const CreateColumnForm = ({
 }: CreateColumnFormProps) => {
   return (
     <form action={action} className="space-y-4 flex-none w-60">
-      <input
-        name="name"
-        type="text"
-        placeholder="Column name"
-        className="border p-2 w-full rounded"
-        required
-      />
+      <TextField name="name" type="text" placeholder="Column name" required />
       <input
         name="boardId"
         value={boardId}
@@ -30,12 +27,7 @@ export const CreateColumnForm = ({
         readOnly
         className="absolute hidden"
       />
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        Create column
-      </button>
+      <Button type="submit">Create column</Button>
     </form>
   );
 };

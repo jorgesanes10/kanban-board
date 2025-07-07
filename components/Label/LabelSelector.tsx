@@ -3,6 +3,8 @@ import { TextField } from '../Forms/TextField';
 import { ILabel } from '@/app/board/[boardId]/page';
 import { ChangeEvent } from 'react';
 import { Label } from './Label';
+import { Button } from '../Forms/Button';
+import { Panel } from '../Containers/Panel';
 
 interface LabelSelectorProps {
   labels: ILabel[];
@@ -59,13 +61,15 @@ export const LabelSelector = ({
           );
         })}
       </div>
-      <form action={createLabel}>
-        <label htmlFor="name">Name:</label>
-        <TextField type="text" id="name" name="name" required />
-        <label htmlFor="color">Color:</label>
-        <TextField type="text" id="color" name="color" required />
-        <button>Create label</button>
-      </form>
+      <Panel className="w-65">
+        <form action={createLabel} className="flex flex-col items-start">
+          <label htmlFor="name">Name:</label>
+          <TextField type="text" id="name" name="name" required />
+          <label htmlFor="color">Color:</label>
+          <TextField type="text" id="color" name="color" required />
+          <Button className="mt-3">Create label</Button>
+        </form>
+      </Panel>
     </div>
   );
 };
