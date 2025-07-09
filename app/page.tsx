@@ -1,7 +1,8 @@
-// app/boards/[id]/page.tsx
 import db from '@/lib/db';
 import { createBoard } from '@/app/actions/createBoard';
 import Link from 'next/link';
+import { Button } from '@/components/Forms/Button';
+import { TextField } from '@/components/Forms/TextField';
 
 interface Board {
   id: string;
@@ -15,29 +16,32 @@ export default function Home() {
 
   return (
     <div className="p-6 h-full">
+      <h1 className="text-2xl font-semibold mb-2">Your boards</h1>
       <ul>
         {boards.map(({ name, id }) => (
-          <li key={id}>
-            <Link href={`/board/${id}`}>{name}</Link>
+          <li className="list-disc" key={id}>
+            <Link className="hover:underline" href={`/board/${id}`}>
+              {name}
+            </Link>
           </li>
         ))}
       </ul>
       <div>
-        <h1>You don&apos;t have boards created. Create a new board now</h1>
-        <form action={createBoard} className="space-y-4">
-          <input
+        <h2 className="mt-2 mb-2 text-xl">
+          {boards.length === 0 && 'You don&apos;t have boards created. '}Create
+          a new board now
+        </h2>
+        <form
+          action={createBoard}
+          className="space-y-4 flex flex-col items-start"
+        >
+          <TextField
             name="name"
             type="text"
             placeholder="Board name"
-            className="border p-2 w-full rounded"
             required
           />
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Create Board
-          </button>
+          <Button type="submit">Create Board</Button>
         </form>
       </div>
     </div>
