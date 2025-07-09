@@ -27,14 +27,10 @@ export const Column = ({
     color: isOver ? 'green' : undefined,
   };
 
-  // font-size: 16px;
-  // color: #77808E;
-  // margin-right: 40px;
-  // background-color: #EAF1F8;
-  // border: 1px solid #fff;
-  // border-radius: 28px;
-  // padding: 10px 20px;
-  // box-shadow: 1px 1px 2px rgba(190, 190, 190, 0.5), inset -1px -1px 6px #fff, inset 1px 1px 6px rgba(0, 0, 0, 0.17);
+  const totalColumnPoints = cards.reduce(
+    (acc, { points }) => acc + (points || 0),
+    0,
+  );
 
   return (
     <div
@@ -47,7 +43,14 @@ export const Column = ({
           '1px 1px 2px rgba(190, 190, 190, 0.5), inset -1px -1px 6px #fff, inset 1px 1px 6px rgba(0, 0, 0, 0.17)',
       }}
     >
-      <h2 className="font-bold mb-4 text-xl">{name}</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="font-bold text-xl">{name}</h2>
+        {totalColumnPoints > 0 && (
+          <span className="bg-blue-400 rounded-full h-5 w-5 flex items-center justify-center text-sm text-white font-bold">
+            {totalColumnPoints}
+          </span>
+        )}
+      </div>
       {cards.map(({ name, id: cardId, points, labels }) => (
         <CardWidget
           key={cardId}

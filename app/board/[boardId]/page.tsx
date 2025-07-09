@@ -35,7 +35,7 @@ export default async function BoardPage({
 }: {
   params: { boardId: string };
 }) {
-  const { boardId } = await params;
+  const { boardId } = params;
 
   // Direct SQLite query inside the Server Component
   const boardStmt = db.prepare('SELECT * FROM boards WHERE id = ?');
