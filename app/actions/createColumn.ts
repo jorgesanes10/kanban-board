@@ -14,10 +14,10 @@ export async function createColumn(formData: FormData) {
 
   const id = crypto.randomUUID();
 
-  const stmt = db.prepare(
-    'INSERT INTO columns (id, name, board_id, position) VALUES (?, ?, ?, ?)',
-  );
-  stmt.run(id, name, boardId, position);
+  await db.execute({
+    sql: 'INSERT INTO columns (id, name, board_id, position) VALUES (?, ?, ?, ?)',
+    args: [id, name, boardId, position],
+  });
 
   redirect(`/board/${boardId}`);
 }

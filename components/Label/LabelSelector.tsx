@@ -25,8 +25,6 @@ export const LabelSelector = ({
   ) => {
     const currentId = (event.target as HTMLButtonElement).id;
 
-    console.log({ currentId, isToggledOn });
-
     const currentSelectedLabels = [...selectedLabels];
 
     if (isToggledOn) {
@@ -50,8 +48,6 @@ export const LabelSelector = ({
   const handleToggleViewClick = () => {
     setIsExpanded((prevExpanded) => !prevExpanded);
   };
-
-  console.log('selectedLabels', selectedLabels);
 
   return (
     <div>

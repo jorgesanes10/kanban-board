@@ -12,8 +12,10 @@ export async function createBoard(formData: FormData) {
 
   const id = crypto.randomUUID();
 
-  const stmt = db.prepare('INSERT INTO boards (id, name) VALUES (?, ?)');
-  stmt.run(id, name);
+  await db.execute({
+    sql: 'INSERT INTO boards (id, name) VALUES (?, ?)',
+    args: [id, name],
+  });
 
   // Optionally redirect to the new board page after creation
   redirect(`/board/${id}`);

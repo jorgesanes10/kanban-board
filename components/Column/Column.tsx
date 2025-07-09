@@ -51,17 +51,19 @@ export const Column = ({
           </span>
         )}
       </div>
-      {cards.map(({ name, id: cardId, points, labels }) => (
-        <CardWidget
-          key={cardId}
-          name={name}
-          id={cardId}
-          points={points}
-          boardId={boardId}
-          selectedLabels={labels}
-          allLabels={allLabels}
-        />
-      ))}
+      <div>
+        {cards.map(({ name, id: cardId, points, labels }) => (
+          <CardWidget
+            key={cardId}
+            name={name}
+            id={cardId}
+            points={points}
+            boardId={boardId}
+            selectedLabels={labels}
+            allLabels={allLabels}
+          />
+        ))}
+      </div>
       <form action={createCard} className="mt-4">
         <TextField
           type="text"

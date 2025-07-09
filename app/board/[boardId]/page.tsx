@@ -38,20 +38,39 @@ export default async function BoardPage({
   const { boardId } = await params;
 
   // Direct SQLite query inside the Server Component
-  const boardStmt = db.prepare('SELECT * FROM boards WHERE id = ?');
-  const board = boardStmt.get(boardId) as IBoard;
+  const boardRaw = (
+    await db.execute({
+      sql: 'SELECT * FROM boards WHERE id = ?',
+      args: [boardId as string],
+    })
+  ).rows[0] as unknown as IBoard;
+
+  const board = JSON.parse(JSON.stringify(boardRaw));
 
   if (!board) {
     // You can throw to trigger the 404 page
     throw new Error('Board not found');
   }
 
-  const columnsStmt = db.prepare('SELECT * FROM columns WHERE board_id = ?');
-  const columns = columnsStmt.all(boardId) as IColumn[];
+  const columnsRaw = (
+    await db.execute({
+      sql: 'SELECT * FROM columns WHERE board_id = ?',
+      args: [boardId as string],
+    })
+  ).rows as unknown as IColumn[];
+
+  const columns = JSON.parse(JSON.stringify(columnsRaw));
 
   for (const column of columns) {
-    const cardsStmt = db.prepare('SELECT * FROM cards WHERE column_id = ?');
-    const cards = cardsStmt.all(column.id) as ICard[];
+    const cardsRaw = (
+      await db.execute({
+        sql: 'SELECT * FROM cards WHERE column_id = ?',
+        args: [column.id],
+      })
+    ).rows as unknown as ICard[];
+
+    const cards = JSON.parse(JSON.stringify(cardsRaw));
+
     column.cards = cards; // attach cards to the column
   }
 

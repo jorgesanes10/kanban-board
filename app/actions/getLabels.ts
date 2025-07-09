@@ -2,8 +2,13 @@ import db from '@/lib/db';
 import { ILabel } from '../board/[boardId]/page';
 
 export async function getLabels() {
-  const LabelsStmt = db.prepare('SELECT * FROM labels');
-  const labels = LabelsStmt.all() as ILabel[];
+  const labelsRaw = (
+    await db.execute({
+      sql: 'SELECT * FROM labels',
+    })
+  ).rows;
 
-  return labels;
+  const labels = JSON.parse(JSON.stringify(labelsRaw));
+
+  return labels as unknown as ILabel[];
 }

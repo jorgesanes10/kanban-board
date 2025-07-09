@@ -18,10 +18,10 @@ export async function createCard(formData: FormData) {
 
   const id = crypto.randomUUID();
 
-  const stmt = db.prepare(
-    'INSERT INTO cards (id, name, description, points, labels, column_id) VALUES (?, ?, ?, ?, ?, ?)',
-  );
-  stmt.run(id, name, description, points, labels, columnId);
+  await db.execute({
+    sql: 'INSERT INTO cards (id, name, description, points, labels, column_id) VALUES (?, ?, ?, ?, ?, ?)',
+    args: [id, name, description, points, labels, columnId],
+  });
 
   redirect(`/board/${boardId}`);
 }

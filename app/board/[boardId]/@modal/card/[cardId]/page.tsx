@@ -11,9 +11,14 @@ export default async function CardDetail({
 }) {
   const { cardId } = await params;
 
-  // Direct SQLite query inside the Server Component
-  const cardStmt = db.prepare('SELECT * FROM cards WHERE id = ?');
-  const card = cardStmt.get(cardId) as ICard;
+  const cardRaw = (
+    await db.execute({
+      sql: 'SELECT * FROM cards WHERE id = ?',
+      args: [cardId as string],
+    })
+  ).rows[0] as unknown as ICard;
+
+  const card = JSON.parse(JSON.stringify(cardRaw));
 
   const labels = await getLabels();
 

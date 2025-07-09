@@ -13,10 +13,10 @@ export async function createLabel(formData: FormData) {
 
   const id = crypto.randomUUID();
 
-  const stmt = db.prepare(
-    'INSERT INTO labels (id, name, color) VALUES (?, ?, ?)',
-  );
-  stmt.run(id, name, color);
+  await db.execute({
+    sql: 'INSERT INTO labels (id, name, color) VALUES (?, ?, ?)',
+    args: [id, name, color],
+  });
 
   // Optionally redirect to the new board page after creation
   revalidatePath('/board');

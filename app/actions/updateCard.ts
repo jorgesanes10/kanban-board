@@ -21,8 +21,10 @@ export async function updateCard({ id, field, value }: UpdateCardInput) {
     throw new Error(`Invalid field: ${field}`);
   }
 
-  const stmt = db.prepare(`UPDATE cards SET ${field} = ? WHERE id = ?`);
-  stmt.run(value, id);
+  await db.execute({
+    sql: `UPDATE cards SET ${field} = ? WHERE id = ?`,
+    args: [value, id],
+  });
 
   // Revalidate all boards containing this card
   revalidatePath('/board');

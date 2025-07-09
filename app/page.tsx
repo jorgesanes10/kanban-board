@@ -9,10 +9,14 @@ interface Board {
   name: string;
 }
 
-export default function Home() {
-  // Direct SQLite query inside the Server Component
-  const stmt = db.prepare('SELECT * FROM boards');
-  const boards = stmt.all() as Board[];
+export default async function Home() {
+  const boardsRaw = (
+    await db.execute({
+      sql: 'SELECT * FROM boards',
+    })
+  ).rows;
+
+  const boards = JSON.parse(JSON.stringify(boardsRaw)) as unknown as Board[];
 
   return (
     <div className="p-6 h-full">
