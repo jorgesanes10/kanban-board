@@ -33,9 +33,9 @@ export interface ILabel {
 export default async function BoardPage({
   params,
 }: {
-  params: { boardId: string };
+  params: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { boardId } = params;
+  const { boardId } = await params;
 
   // Direct SQLite query inside the Server Component
   const boardStmt = db.prepare('SELECT * FROM boards WHERE id = ?');

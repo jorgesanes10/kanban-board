@@ -7,7 +7,7 @@ import { getSelectedLabels } from '@/utils';
 export default async function CardDetail({
   params,
 }: {
-  params: { cardId: string };
+  params: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { cardId } = await params;
 
