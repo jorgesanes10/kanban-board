@@ -7,16 +7,21 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
+  DragStartEvent,
+  DragOverlay,
 } from '@dnd-kit/core';
-import { IBoard, IColumn, ILabel } from '@/app/board/[boardId]/page';
+import { IBoard, ICard, IColumn, ILabel } from '@/app/board/[boardId]/page';
 import { Column } from '../Column/Column';
 import { CreateColumnForm } from '../Forms/CreateColumnForm';
 import { updateCard } from '@/app/actions/updateCard';
+import { useState } from 'react';
+import { CardWidget } from '../Card/CardWidget';
 
 interface BoardProps {
   board: IBoard;
   columns: IColumn[];
   allLabels: ILabel[];
+  allBoardCards: ICard[];
   createColumnAction: (formData: FormData) => Promise<void>;
 }
 
@@ -25,7 +30,10 @@ export default function Board({
   columns,
   createColumnAction,
   allLabels,
+  allBoardCards,
 }: BoardProps) {
+  const [activeId, setActiveId] = useState('null');
+
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
       delay: 100,
@@ -37,6 +45,8 @@ export default function Board({
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
+    setActiveId('');
+
     if (!over) return;
 
     const cardId = active.id as string;
@@ -47,11 +57,22 @@ export default function Board({
     // Call updateCard({ id: cardId, field: 'columnId', value: newColumnId }) to persist
   }
 
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id as string);
+  };
+
+  const selectedCard = allBoardCards?.find(
+    ({ id: cardId }) => cardId === activeId,
+  );
+
+  console.log('selectedCard', selectedCard);
+
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      onDragStart={handleDragStart}
     >
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-5">{board.name}</h1>
@@ -68,6 +89,23 @@ export default function Board({
               />
             );
           })}
+          <DragOverlay dropAnimation={null}>
+            {activeId && selectedCard ? (
+              <CardWidget
+                name={selectedCard.name}
+                id={activeId}
+                points={selectedCard.points}
+                boardId={board.id}
+                selectedLabels={selectedCard.labels}
+                allLabels={allLabels}
+                style={{
+                  transform: 'rotate(-3deg)',
+                  marginTop: '6px',
+                  paddingTop: '12px',
+                }}
+              />
+            ) : null}
+          </DragOverlay>
           <CreateColumnForm
             action={createColumnAction}
             boardId={board.id}

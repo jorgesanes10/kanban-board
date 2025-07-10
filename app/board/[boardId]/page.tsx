@@ -61,6 +61,8 @@ export default async function BoardPage({
 
   const columns = JSON.parse(JSON.stringify(columnsRaw));
 
+  const allBoardCards = [];
+
   for (const column of columns) {
     const cardsRaw = (
       await db.execute({
@@ -70,6 +72,8 @@ export default async function BoardPage({
     ).rows as unknown as ICard[];
 
     const cards = JSON.parse(JSON.stringify(cardsRaw));
+
+    allBoardCards.push(...cards);
 
     column.cards = cards; // attach cards to the column
   }
@@ -82,6 +86,7 @@ export default async function BoardPage({
       columns={columns}
       createColumnAction={createColumn}
       allLabels={labels}
+      allBoardCards={allBoardCards}
     />
   );
 }

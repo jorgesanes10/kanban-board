@@ -4,7 +4,7 @@ import { createCard } from '@/app/actions/createCard';
 import { ICard, ILabel } from '@/app/board/[boardId]/page';
 import { TextField } from '../Forms/TextField';
 import { CardWidget } from '../Card/CardWidget';
-
+import { Draggable } from '../Card/Draggable';
 interface ColumnProps {
   id: string;
   name: string;
@@ -51,17 +51,19 @@ export const Column = ({
           </span>
         )}
       </div>
-      <div>
+      <div className="overflow-auto" style={{ maxHeight: 'calc(100% - 96px)' }}>
         {cards.map(({ name, id: cardId, points, labels }) => (
-          <CardWidget
-            key={cardId}
-            name={name}
-            id={cardId}
-            points={points}
-            boardId={boardId}
-            selectedLabels={labels}
-            allLabels={allLabels}
-          />
+          <Draggable key={cardId} id={cardId}>
+            <CardWidget
+              key={cardId}
+              name={name}
+              id={cardId}
+              points={points}
+              boardId={boardId}
+              selectedLabels={labels}
+              allLabels={allLabels}
+            />
+          </Draggable>
         ))}
       </div>
       <form action={createCard} className="mt-4">

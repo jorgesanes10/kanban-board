@@ -1,6 +1,6 @@
 'use client';
 
-import { useDraggable } from '@dnd-kit/core';
+// import { useDraggable } from '@dnd-kit/core';
 import { ILabel } from '@/app/board/[boardId]/page';
 import { useRouter } from 'next/navigation';
 import { getSelectedLabels } from '@/utils';
@@ -13,6 +13,8 @@ interface CardWidgetProps {
   points?: number;
   selectedLabels?: string;
   allLabels?: ILabel[];
+  getSelectedDraggingId?: (id: string) => void;
+  style?: object;
 }
 
 export const CardWidget = ({
@@ -22,19 +24,20 @@ export const CardWidget = ({
   points,
   selectedLabels,
   allLabels,
+  style,
 }: CardWidgetProps) => {
   const router = useRouter();
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id,
-  });
+  // const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  //   id,
+  // });
 
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0) rotate(-3deg)`,
-        zIndex: 10,
-      }
-    : undefined;
+  // const style = transform
+  //   ? {
+  //       transform: `translate3d(${transform.x}px, ${transform.y}px, 0) rotate(-3deg)`,
+  //       zIndex: 10,
+  //     }
+  //   : undefined;
 
   const handleClick = () => {
     router.push(`/board/${boardId}/card/${id}`);
@@ -47,10 +50,11 @@ export const CardWidget = ({
       onClick={handleClick}
       key={id}
       className="border border-white rounded px-4 py-2 mb-2 shadow-md flex flex-col justify-between backdrop-blur-md bg-[#f1f6fa] cursor-pointer"
-      ref={setNodeRef}
+      // ref={setNodeRef}
+      // style={style}
+      // {...attributes}
+      // {...listeners}
       style={style}
-      {...attributes}
-      {...listeners}
     >
       <div className="flex justify-between">
         <span>{name}</span>
