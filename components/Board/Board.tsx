@@ -16,6 +16,9 @@ import { CreateColumnForm } from '../Forms/CreateColumnForm';
 import { updateCard } from '@/app/actions/updateCard';
 import { useEffect, useState } from 'react';
 import { CardWidget } from '../Card/CardWidget';
+import Link from 'next/link';
+import Image from 'next/image';
+import backIcon from './back-icon.svg';
 
 interface BoardProps {
   board: IBoard;
@@ -106,7 +109,17 @@ export default function Board({
       onDragStart={handleDragStart}
     >
       <div className="p-6 h-full">
-        <h1 className="text-2xl font-bold mb-5">{board.name}</h1>
+        <div className="flex items-center mb-5">
+          <Link href="/">
+            <Image
+              src={backIcon}
+              alt="Back to main page"
+              height={24}
+              width={24}
+            />
+          </Link>
+          <h1 className="ml-2 text-2xl font-bold">{board.name}</h1>
+        </div>
         <div
           className="flex gap-10 overflow-auto p-2"
           style={{ height: 'calc(100% - 45px)' }}
