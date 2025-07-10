@@ -14,7 +14,7 @@ import { IBoard, ICard, IColumn, ILabel } from '@/app/board/[boardId]/page';
 import { Column } from '../Column/Column';
 import { CreateColumnForm } from '../Forms/CreateColumnForm';
 import { updateCard } from '@/app/actions/updateCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CardWidget } from '../Card/CardWidget';
 
 interface BoardProps {
@@ -33,6 +33,15 @@ export default function Board({
   allBoardCards,
 }: BoardProps) {
   const [activeId, setActiveId] = useState('null');
+  const [boardColumns, setBoardColumns] = useState(
+    columns.map((col) => ({ id: col.id, name: col.name, cards: col.cards })),
+  );
+
+  useEffect(() => {
+    setBoardColumns(
+      columns.map((col) => ({ id: col.id, name: col.name, cards: col.cards })),
+    );
+  }, [columns]);
 
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
@@ -50,11 +59,35 @@ export default function Board({
     if (!over) return;
 
     const cardId = active.id as string;
-    const newColumnId = over.id; // if over columns, or get parent column id from your structure
+    const newColumnId = over.id as string;
+    let activeCard = null;
 
-    // Update your local state for immediate UI feedback
-    updateCard({ id: cardId, field: 'column_id', value: newColumnId });
-    // Call updateCard({ id: cardId, field: 'columnId', value: newColumnId }) to persist
+    const newBoardColumns = [...boardColumns];
+
+    for (const column of newBoardColumns) {
+      const cardIndex = column.cards.findIndex((card) => card.id === cardId);
+      if (cardIndex !== -1) {
+        activeCard = column.cards.splice(cardIndex, 1)[0];
+        break;
+      }
+    }
+
+    if (activeCard) {
+      const targetColumn = newBoardColumns.find(
+        (col) => col.id === newColumnId,
+      );
+
+      if (targetColumn) {
+        targetColumn.cards.push(activeCard);
+
+        setBoardColumns(newBoardColumns);
+        updateCard({ id: cardId, field: 'column_id', value: newColumnId });
+      } else {
+        console.warn('Target column not found for id:', newColumnId);
+      }
+    } else {
+      console.warn('Card not found for id:', cardId);
+    }
   }
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -64,8 +97,6 @@ export default function Board({
   const selectedCard = allBoardCards?.find(
     ({ id: cardId }) => cardId === activeId,
   );
-
-  console.log('selectedCard', selectedCard);
 
   return (
     <DndContext
@@ -80,7 +111,7 @@ export default function Board({
           className="flex gap-10 overflow-auto p-2"
           style={{ height: 'calc(100% - 45px)' }}
         >
-          {columns.map(({ name, id, cards }) => {
+          {boardColumns.map(({ name, id, cards }) => {
             return (
               <Column
                 key={id}
