@@ -7,7 +7,7 @@ export default function BoardLayout({
   modal: React.ReactNode;
 }) {
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-[100vh]">
       {children}
       {modal}
     </div>

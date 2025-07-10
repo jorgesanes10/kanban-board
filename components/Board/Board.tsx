@@ -74,9 +74,12 @@ export default function Board({
       onDragEnd={handleDragEnd}
       onDragStart={handleDragStart}
     >
-      <div className="p-6">
+      <div className="p-6 h-full">
         <h1 className="text-2xl font-bold mb-5">{board.name}</h1>
-        <div className="h-[70vh] flex gap-10 overflow-auto p-2">
+        <div
+          className="flex gap-10 overflow-auto p-2"
+          style={{ height: 'calc(100% - 45px)' }}
+        >
           {columns.map(({ name, id, cards }) => {
             return (
               <Column
@@ -102,6 +105,7 @@ export default function Board({
                   transform: 'rotate(-3deg)',
                   marginTop: '6px',
                   paddingTop: '12px',
+                  zIndex: 1000,
                 }}
               />
             ) : null}
