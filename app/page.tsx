@@ -3,6 +3,7 @@ import { createBoard } from '@/app/actions/createBoard';
 import Link from 'next/link';
 import { Button } from '@/components/Forms/Button';
 import { TextField } from '@/components/Forms/TextField';
+import { Panel } from '@/components/Containers/Panel';
 
 interface Board {
   id: string;
@@ -19,18 +20,20 @@ export default async function Home() {
   const boards = JSON.parse(JSON.stringify(boardsRaw)) as unknown as Board[];
 
   return (
-    <div className="p-6 h-full">
-      <h1 className="text-2xl font-semibold mb-2">Your boards</h1>
-      <ul>
-        {boards.map(({ name, id }) => (
-          <li className="list-disc" key={id}>
-            <Link className="hover:underline" href={`/board/${id}`}>
-              {name}
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <div>
+    <div className="p-6 h-full flex gap-5">
+      <Panel className="basis-[50%]">
+        <h1 className="text-2xl font-semibold mb-2">Your boards</h1>
+        <ul>
+          {boards.map(({ name, id }) => (
+            <li key={id}>
+              <Link className="hover:underline" href={`/board/${id}`}>
+                {name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Panel>
+      <Panel className="basis-[50%]">
         <h2 className="mt-2 mb-2 text-xl">
           {boards.length === 0 && 'You don&apos;t have boards created. '}Create
           a new board now
@@ -47,7 +50,7 @@ export default async function Home() {
           />
           <Button type="submit">Create Board</Button>
         </form>
-      </div>
+      </Panel>
     </div>
   );
 }
