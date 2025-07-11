@@ -14,7 +14,7 @@ import { IBoard, ICard, IColumn, ILabel } from '@/app/board/[boardId]/page';
 import { Column } from '../Column/Column';
 import { CreateColumnForm } from '../Forms/CreateColumnForm';
 import { updateCard } from '@/app/actions/updateCard';
-import { useEffect, useState } from 'react';
+import { startTransition, useOptimistic, useState } from 'react';
 import { CardWidget } from '../Card/CardWidget';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -28,6 +28,12 @@ interface BoardProps {
   createColumnAction: (formData: FormData) => Promise<void>;
 }
 
+interface BoardState {
+  id: string;
+  name: string;
+  cards: ICard[];
+}
+
 export default function Board({
   board,
   columns,
@@ -36,15 +42,11 @@ export default function Board({
   allBoardCards,
 }: BoardProps) {
   const [activeId, setActiveId] = useState('null');
-  const [boardColumns, setBoardColumns] = useState(
-    columns.map((col) => ({ id: col.id, name: col.name, cards: col.cards })),
-  );
 
-  useEffect(() => {
-    setBoardColumns(
-      columns.map((col) => ({ id: col.id, name: col.name, cards: col.cards })),
-    );
-  }, [columns]);
+  const [boardColumns, setBoardColumns] = useOptimistic(
+    columns.map((col) => ({ id: col.id, name: col.name, cards: col.cards })),
+    (_, newState: BoardState[]) => [...newState],
+  );
 
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
@@ -83,7 +85,10 @@ export default function Board({
       if (targetColumn) {
         targetColumn.cards.push(activeCard);
 
-        setBoardColumns(newBoardColumns);
+        startTransition(() => {
+          setBoardColumns(newBoardColumns);
+        });
+
         updateCard({ id: cardId, field: 'column_id', value: newColumnId });
       } else {
         console.warn('Target column not found for id:', newColumnId);
@@ -124,7 +129,7 @@ export default function Board({
           className="flex gap-10 overflow-auto p-2"
           style={{ height: 'calc(100% - 45px)' }}
         >
-          {boardColumns.map(({ name, id, cards }) => {
+          {boardColumns?.map(({ name, id, cards }) => {
             return (
               <Column
                 key={id}
