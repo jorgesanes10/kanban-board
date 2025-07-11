@@ -1,6 +1,6 @@
 'use server';
 
-import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import db from '@/lib/db';
 
 export async function createCard(formData: FormData) {
@@ -23,5 +23,5 @@ export async function createCard(formData: FormData) {
     args: [id, name, description, points, labels, columnId],
   });
 
-  redirect(`/board/${boardId}`);
+  revalidatePath(`/board/${boardId}`);
 }

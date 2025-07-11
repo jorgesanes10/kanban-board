@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useOptimistic, useRef } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { createCard } from '@/app/actions/createCard';
 import { ICard, ILabel } from '@/app/board/[boardId]/page';
@@ -20,14 +20,33 @@ export const Column = ({
   cards,
   allLabels,
 }: ColumnProps) => {
+  const [optimisticCards, addOptimisticCard] = useOptimistic(
+    cards,
+    (state, newCard: ICard) => [...state, newCard],
+  );
+
+  const nameRef = useRef<HTMLInputElement>(null);
+
+  const formAction = (formData: FormData) => {
+    nameRef.current!.value = '';
+    createCard(formData);
+
+    addOptimisticCard({
+      name: formData.get('name') as string,
+      columnId: formData.get('columnId') as string,
+      id: '',
+    });
+  };
+
   const { isOver, setNodeRef } = useDroppable({
     id,
   });
+
   const style = {
     color: isOver ? 'green' : undefined,
   };
 
-  const totalColumnPoints = cards.reduce(
+  const totalColumnPoints = optimisticCards.reduce(
     (acc, { points }) => acc + (points || 0),
     0,
   );
@@ -52,7 +71,7 @@ export const Column = ({
         )}
       </div>
       <div className="overflow-auto" style={{ maxHeight: 'calc(100% - 96px)' }}>
-        {cards.map(({ name, id: cardId, points, labels }) => (
+        {optimisticCards.map(({ name, id: cardId, points, labels }) => (
           <Draggable key={cardId} id={cardId}>
             <CardWidget
               key={cardId}
@@ -66,8 +85,9 @@ export const Column = ({
           </Draggable>
         ))}
       </div>
-      <form action={createCard} className="mt-4">
+      <form action={formAction} className="mt-4">
         <TextField
+          ref={nameRef}
           type="text"
           name="name"
           required

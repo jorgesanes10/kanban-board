@@ -1,7 +1,9 @@
 export const TextField = ({
   className,
   ...rest
-}: React.InputHTMLAttributes<HTMLInputElement>) => {
+}: React.InputHTMLAttributes<HTMLInputElement> & {
+  ref?: React.RefObject<HTMLInputElement | null>;
+}) => {
   return (
     <input
       className={`bg-[#C8D9E8] rounded-lg px-2 py-1 text-gray-800 ${className}`}
