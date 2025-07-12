@@ -14,7 +14,7 @@ import { IBoard, ICard, IColumn, ILabel } from '@/app/board/[boardId]/page';
 import { Column } from '../Column/Column';
 import { CreateColumnForm } from '../Forms/CreateColumnForm';
 import { updateCard } from '@/app/actions/updateCard';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CardWidget } from '../Card/CardWidget';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -39,12 +39,6 @@ export default function Board({
   const [boardColumns, setBoardColumns] = useState(
     columns.map((col) => ({ id: col.id, name: col.name, cards: col.cards })),
   );
-
-  useEffect(() => {
-    setBoardColumns(
-      columns.map((col) => ({ id: col.id, name: col.name, cards: col.cards })),
-    );
-  }, [columns]);
 
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
