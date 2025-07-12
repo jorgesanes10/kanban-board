@@ -28,17 +28,6 @@ export const CardWidget = ({
 }: CardWidgetProps) => {
   const router = useRouter();
 
-  // const { attributes, listeners, setNodeRef, transform } = useDraggable({
-  //   id,
-  // });
-
-  // const style = transform
-  //   ? {
-  //       transform: `translate3d(${transform.x}px, ${transform.y}px, 0) rotate(-3deg)`,
-  //       zIndex: 10,
-  //     }
-  //   : undefined;
-
   const handleClick = () => {
     router.push(`/board/${boardId}/card/${id}`);
   };
@@ -50,10 +39,6 @@ export const CardWidget = ({
       onClick={handleClick}
       key={id}
       className="border border-white rounded px-4 py-2 mb-2 shadow-md flex flex-col justify-between backdrop-blur-md bg-[#f1f6fa] cursor-pointer"
-      // ref={setNodeRef}
-      // style={style}
-      // {...attributes}
-      // {...listeners}
       style={style}
     >
       <div className="flex justify-between">

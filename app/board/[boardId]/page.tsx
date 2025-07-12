@@ -37,7 +37,6 @@ export default async function BoardPage({
 }) {
   const { boardId } = await params;
 
-  // Direct SQLite query inside the Server Component
   const boardRaw = (
     await db.execute({
       sql: 'SELECT * FROM boards WHERE id = ?',
@@ -48,7 +47,6 @@ export default async function BoardPage({
   const board = JSON.parse(JSON.stringify(boardRaw));
 
   if (!board) {
-    // You can throw to trigger the 404 page
     throw new Error('Board not found');
   }
 
@@ -75,7 +73,7 @@ export default async function BoardPage({
 
     allBoardCards.push(...cards);
 
-    column.cards = cards; // attach cards to the column
+    column.cards = cards;
   }
 
   const labels = await getLabels();
