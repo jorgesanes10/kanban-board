@@ -20,7 +20,7 @@ export const Button = ({
   onClick,
   ...props
 }: ButtonProps) => {
-  const [isToggledOnState, setIsToggledOne] = useState(isToggledOn);
+  const [isToggledOnState, setIsToggledOnState] = useState(isToggledOn);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (customOnClick) {
@@ -32,7 +32,7 @@ export const Button = ({
     }
 
     if (toggleable) {
-      setIsToggledOne((prevToggledOn) => !prevToggledOn);
+      setIsToggledOnState((prevToggledOn) => !prevToggledOn);
     }
   };
 
